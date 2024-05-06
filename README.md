@@ -1,6 +1,6 @@
 # Vertex Fit with GN2's track origin predictions
 
-The code in this repository produces the $L_{xy}$ comparison between the vertex fitting performed with GN2's track selection or with "perfect track selection" (i.e. using the Montecarlo truth track origins to select which tracks are to be fitted). Results can be found in `images`. Here is the result of the comparison on $b/c-$jets:
+The code in this repository produces the $L_{xy}$ comparison between the vertex fitting performed with GN2's track selection or with "perfect track selection" (i.e. using the Montecarlo truth track origins to select which tracks are to be fitted). Results can be found in `images`. Here is the result of the comparison on $b/c-$ jets:
 <center>
 <img src="./images/LxyComparison_inclusive.jpg" alt="drawing" width="700"/>
 </center>
@@ -20,7 +20,14 @@ The code in this repository produces the $L_{xy}$ comparison between the vertex 
 ├── README.md
 ```
 
-## Reproduce the fit
+## Reproducibility
+
+Here are the instructions to reproduce these results.
+
+> :warning: **Code Dependencies** <br> 
+To run this code, you need to install [PUMA](https://github.com/umami-hep/puma) and `numpy`.
+
+### Reproduce the fit
 
 To reproduce the fit an ATLAS `.h5` file is needed in this directory. The `.h5` file that was used to produce these results can be found in my `public` area on `eos`:
 ```shell
@@ -34,6 +41,6 @@ When an `H5` file is added to the repository, to perform the fit run the `fit.py
 
 The `fit.py` script saves its results in the `fit_results.dat` file, which is later used by the `plots.py` script to produce the plots.
 
-## Reproduce the plots
+### Reproduce the plots
 
 To reproduce the plots it is not necessary to have an `H5` file in this repository: the fit results on a $\sim50K$ jet sample are stored in `fit_results.dat`. The `plots.py` script, which produces the plots, runs on that file and saves the results in the `images` folder.
