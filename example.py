@@ -29,32 +29,41 @@ jets = importH5(
     customProperties=["HadronConeExclTruthLabelLxy"],
 )
 
-# fitting jets
-print("Begin fitting...")
-
+# Single Secondary Vertex Fitter with straight line approximation
 svfs = SVFs(eps=1e-6, maxIter=1e3)
 
-l3dTruth = []
-l3dGn2 = []
-
+# Number of successfully fitted jets
 nFittedJets = 0
+# Vertexes fitted with perfect track selection
 perfect_tracksel_vertexes = []
+# Chi2 of the perfect track selection fits
 perfect_tracksel_chi2 = []
+# Vertexes fitted with GN2 track selection
 GN2_tracksel_vertexes = []
+# Chi2 of the GN2 track selection fits
 GN2_tracksel_chi2 = []
+# Lxy by SV1
 SV1_Lxy = []
+# Montecarlo truth Lxy
 MCtruth_Lxy = []
+# Jet flavour label
 jet_flavour = []
 
-
+# Wether to fit or not light jets
 filterLightJets = True
 
+# Fitting jets
+print("Begin fitting...")
 for i, j in enumerate(jets):
+    # Status
     if i % 50 == 0:
         print("Fitting jet", i, "out of", N, end="\r")
+
+    # If enabled, skip light jets
     if j.properties["HadronConeExclTruthLabelID"] not in [4, 5] and filterLightJets:
         continue
 
+    # Read track origins of the current jet and store the tracks in a list
     truth_track_origin = []
     GN2_track_origins = []
     tracks = []
@@ -67,21 +76,23 @@ for i, j in enumerate(jets):
     GN2_track_origins = np.array(GN2_track_origins)
     tracks = np.array(tracks)
 
+    # Track Selection with GN2
     maskGN2 = (
         (GN2_track_origins == "FromB")
         | (GN2_track_origins == "FromBC")
         | (GN2_track_origins == "FromC")
     )
 
+    # Track Selection with MC truth origin
     maskTruth = (
         (truth_track_origin == "FromB")
         | (truth_track_origin == "FromBC")
         | (truth_track_origin == "FromC")
     )
 
-    # mask for perfect tracksel fit
+    # tracks list masked with perfect track selection
     ptracksel_tracks = tracks[maskTruth]
-    # mask for GN2 tracksel fit
+    # tracks list masked with GN2 track selection
     GN2tracksel_tracks = tracks[maskGN2]
 
     # If no tracks are left, skip the jet
@@ -89,11 +100,12 @@ for i, j in enumerate(jets):
         continue
 
     # perfect tracksel fit
-    vertexTruth,chi2Truth = svfs.fit(ptracksel_tracks.tolist())
+    vertexTruth, chi2Truth = svfs.fit(ptracksel_tracks.tolist())
 
     # GN2 tracksel fit
-    vertexGN2,chi2GN2 = svfs.fit(GN2tracksel_tracks.tolist())
+    vertexGN2, chi2GN2 = svfs.fit(GN2tracksel_tracks.tolist())
 
+    # Saving results for this jet
     SV1_Lxy.append(j.properties["SV1_Lxy"])
     MCtruth_Lxy.append(j.properties["HadronConeExclTruthLabelLxy"])
     perfect_tracksel_vertexes.append(vertexTruth)
@@ -109,6 +121,8 @@ SV1_Lxy = np.array(SV1_Lxy)
 MCtruth_Lxy = np.array(MCtruth_Lxy)
 jet_flavour = np.array(jet_flavour)
 
+# Calculating Lxy of the fitted vertex
+# (for the coordinate system see H5Track docs)
 GN2_Lxy = []
 perfect_tracksel_Lxy = []
 for i in range(nFittedJets):
@@ -121,6 +135,7 @@ for i in range(nFittedJets):
         )
     )
 
+# Saving results
 with open("fit_results.dat", "w") as ofile:
     print(
         "GN2_tracksel_Lxy perfect_tracksel_Lxy SV1_Lxy HadronConeExclTruthLabelLxy HadronConeExclTruthLabelID Truth_Chi2 GN2_chi2",
@@ -128,5 +143,12 @@ with open("fit_results.dat", "w") as ofile:
     )
     for i in range(nFittedJets):
         print(
-            GN2_Lxy[i], perfect_tracksel_Lxy[i], SV1_Lxy[i], MCtruth_Lxy[i], jet_flavour[i], perfect_tracksel_chi2[i], GN2_tracksel_chi2[i], file=ofile
+            GN2_Lxy[i],
+            perfect_tracksel_Lxy[i],
+            SV1_Lxy[i],
+            MCtruth_Lxy[i],
+            jet_flavour[i],
+            perfect_tracksel_chi2[i],
+            GN2_tracksel_chi2[i],
+            file=ofile,
         )

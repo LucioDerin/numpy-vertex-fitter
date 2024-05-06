@@ -8,35 +8,57 @@ import sys
 import math as m
 import numpy as np
 
-
-def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, straightTracks=True):
+def importH5(
+    filepath="",
+    Nevents: int = -1,
+    customProperties: list = [],
+    onlySV1: bool = True,
+    straightTracks: bool = True,
+):
     """Function that imports jets from an H5 file and store them in a list of JetContainer.
 
-    Args:
-        filepath (str, optional): Path to the H5 file. Defaults to "".
-        Nevents (int, optional): Number of jet to be read (does NOT correspond to the number of imported jets if onlySV1==True). 
-                                Defaults to -1, which means import all dataset.
-        customProperties (list, optional): other jet properties to import aside from the default of JetContainer;
-                                            specify them by their key name in the H5.
-        onlySV1 (bool, optional): Wether to filter only jets that have been fitted by SV1. Defaults to True.
-        straightTracks (bool, optional): Wether to use straight or curved tracks. Defaults to True.
+    Parameters
+    ----------
+    filepath : str, optional
+        Path to the H5 file, by default ""
+    Nevents : int, optional
+        Number of jet to be read (does NOT correspond to the number of 
+        imported jets if onlySV1==True), by default -1 which means import all dataset
+    customProperties : list, optional
+        other jet properties to import aside from the default of JetContainer;
+        specify them by their key name in the H5 file, by default []
+    onlySV1 : bool, optional
+        Wether to filter only jets that have been fitted by SV1, by default True
+    straightTracks : bool, optional
+        Wether to use straight (True) or curved (False) tracks, by default True
 
-    Returns:
-        list: a list of JetContainer (defined in H5Tracks)
+    Returns
+    -------
+    list
+        a list of JetContainer.
     """
-    
     if onlySV1:
-        print("Warning: filtering out jets that have no SV1 fit. This might lead to fewer imported jets than specified in Nevents.")
+        print(
+            "Warning: filtering out jets that have no SV1 fit. This might lead to fewer imported jets than specified in Nevents."
+        )
 
     # File reading
     try:
         with h5py.File(filepath, "r") as h5Database:
             if Nevents != -1:
                 jets = h5Database["jets"][:Nevents]
-                rawTracks = h5Database["tracks_loose"][:Nevents] if 'tracks_loose' in h5Database.keys() else h5Database["tracks"][:Nevents]
+                rawTracks = (
+                    h5Database["tracks_loose"][:Nevents]
+                    if "tracks_loose" in h5Database.keys()
+                    else h5Database["tracks"][:Nevents]
+                )
             else:
                 jets = h5Database["jets"][:]
-                rawTracks = h5Database["tracks_loose"][:] if 'tracks_loose' in h5Database.keys() else h5Database["tracks"][:]
+                rawTracks = (
+                    h5Database["tracks_loose"][:]
+                    if "tracks_loose" in h5Database.keys()
+                    else h5Database["tracks"][:]
+                )
 
     except Exception as e:
         print("Error reading the file!")
@@ -50,13 +72,17 @@ def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, str
     for jet, jetRawTracks in zip(jets, rawTracks):
         # Saving jet's variables based on fields' names
         jetKeys = [str(name) for name in jet.dtype.names]
-        nTracks = jet[jetKeys.index("n_tracks_loose")] if "n_tracks_loose" in jetKeys else jet[jetKeys.index("n_tracks")] 
+        nTracks = (
+            jet[jetKeys.index("n_tracks_loose")]
+            if "n_tracks_loose" in jetKeys
+            else jet[jetKeys.index("n_tracks")]
+        )
         SV1_L3d = jet[jetKeys.index("SV1_L3d")]
 
         # filtering only jets fitted by SV1, if onlySV1==True
         if onlySV1 and m.isnan(SV1_L3d):
-                continue
-        
+            continue
+
         # Reading other jet's properties
         SV1_Lxy = jet[jetKeys.index("SV1_Lxy")]
         jetEta = jet[jetKeys.index("eta")]
@@ -79,7 +105,6 @@ def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, str
         tracksNoSV1 = []
         # Iterating over non zero-padded tracks of the jet
         for rawTrack in jetRawTracks[:nTracks]:
-
             # If using straight tracks
             if straightTracks:
                 # Saving track's fields' name
@@ -99,7 +124,7 @@ def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, str
                 sigmaPhi = rawTrack[trackKeys.index("phiUncertainty")]
                 sigmaTheta = rawTrack[trackKeys.index("thetaUncertainty")]
                 sigmaD0 = rawTrack[trackKeys.index("d0Uncertainty")]
-                error = [sigmaTheta,sigmaPhi,sigmaD0,sigmaz0]
+                error = [sigmaTheta, sigmaPhi, sigmaD0, sigmaz0]
 
                 # Track origin prediction
                 originProbabilities = []
@@ -114,7 +139,6 @@ def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, str
 
                 predictedOrigin = np.argmax(np.array(originProbabilities))
 
-
                 # Creating the H5Track object
                 track = H5Track(
                     pt,
@@ -125,9 +149,9 @@ def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, str
                     error,
                     truthOriginLabel,
                     predictedOrigin,
-                    SV1VertexIndex
+                    SV1VertexIndex,
                 )
-                
+
                 # Saving the track in its respective list (selected by SV1 or not)
                 if SV1VertexIndex == 0:
                     tracksSV1.append(track)
@@ -137,11 +161,11 @@ def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, str
                 # Implement charged tracks import
                 # for non linear vertex fit
                 pass
-        
+
         # Filtering events that have a SV1 tracks list
         if onlySV1 and len(tracksSV1) == 0:
             continue
-        
+
         # If jet is valid, create its jet container
         importedJet = JetContainer(
             tracksNoSV1,
@@ -154,11 +178,11 @@ def importH5(filepath="", Nevents=-1, customProperties = [], onlySV1 = True, str
             pt=jetPt,
             primaryVertexDetectorZ=primaryVertexDetectorZ,
             HadronConeExclTruthLabelID=HadronConeExclTruthLabelID,
-            **customPropertiesDict
+            **customPropertiesDict,
         )
         # Store jet's container
         importedJets.append(importedJet)
-    
+
     print("Successfully imported", len(importedJets), "jets.")
 
     # Return the list of JetContainer

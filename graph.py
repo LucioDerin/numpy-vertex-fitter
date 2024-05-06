@@ -1,3 +1,5 @@
+"""Script that produces the plots in ./images"""
+
 from puma import Histogram, HistogramPlot
 
 import numpy as np
@@ -6,6 +8,7 @@ import numpy as np
 def plot_Lxy_comparison(
     GN2_Lxy, perfect_tracksel_Lxy, SV1_Lxy, MCtruth_Lxy, title, filename
 ):
+    """Plot the Lxy comparison histogram"""
     GN2_hist = Histogram(
         GN2_Lxy, label="Fit with GN2 track selection", histtype="step", alpha=1
     )
@@ -43,6 +46,7 @@ def plot_Lxy_comparison(
 
 
 def plot_chi2_comparison(perfect_tracksel_chi2, GN2_chi2, title, filename):
+    """Plot the chi2 comparison histogram"""
     GN2_hist = Histogram(
         GN2_chi2, label=r"$\chi^2$ with GN2 track selection", histtype="step", alpha=1
     )
@@ -56,7 +60,7 @@ def plot_chi2_comparison(perfect_tracksel_chi2, GN2_chi2, title, filename):
     histogram_plotter = HistogramPlot(
         ylabel="Normalized Counts",
         xlabel=r"$\chi^2$",
-        bins=(xrange[1] - xrange[0])*10,
+        bins=(xrange[1] - xrange[0]) * 10,
         bins_range=xrange,
         logy=True,
         norm=True,
@@ -82,6 +86,7 @@ if __name__ == "__main__":
     MCtruth_Lxy = []
     jet_flav = []
 
+    # Reading fit results
     with open("fit_results_highstat.dat", "r") as ifile:
         ifile.readline()
         for line in ifile:
@@ -103,7 +108,6 @@ if __name__ == "__main__":
     SV1_Lxy = np.array(SV1_Lxy)
     MCtruth_Lxy = np.array(MCtruth_Lxy)
     jet_flav = np.array(jet_flav)
-
 
     # Plots inclusive flavour
     plot_Lxy_comparison(
