@@ -2,7 +2,9 @@ import numpy as np
 
 
 class singleVertexFitter_straightTracks:
-    """Class that implements a Single Vertex Fitter on straight tracks based on least squares minimization."""
+    """Class that implements a Single Vertex Fitter on straight tracks based on least squares minimization.
+    For a complete explanation of the algorithm see the docs.
+    """
 
     def __init__(self, eps: float = 1e-8, maxIter: float = 1e2) -> None:
         """Constructor of the fitter.
