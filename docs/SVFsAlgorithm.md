@@ -1,6 +1,6 @@
 # Single Vertex Fitting on straight tracks (SVFs)
 
-> :bulb: **tl;dr**: <br>
+> :bulb: **tl;dr** <br>
 This fitter is a single secondary vertex fitter. It is a straight line fitter that iteratively minimizes a $\chi^2$ defined by the sum of all vertex-to-track distances.
 
 The SVFs (**S**ingle **V**ertex **F**inder on **s**traight tracks) algorithm implemented in this code (`modules.singleVertexFitter`) is described in details in [this book](https://link.springer.com/book/10.1007/978-3-030-65771-0), in paragraph `8.1.1.1`, and the notation is kept as close as possible in the code. The fitter builds the $\chi^2$ as the sum over all the distances between the fitted vertex and the tracks, assuming tracks to be straight lines. Then, it minimizes the $\chi^2$ iteratively using the Newton-Raphson method, until stability (meaning that the the vertex update is within a certain tolerance) or maximum iteration number is reached.
@@ -24,7 +24,7 @@ $$J_i = (\frac{\partial D_{i,t}}{\partial r_i} ,\frac{\partial D_{i,t}}{\partial
 - Evaluate the tracks' weight as:
 $$\sigma^2_i = J^\top V_i J$$
 where $V$ is the covaraince matrix of the track. 
-> :memo: <br>
+> :memo: **Implementation detail** <br>
 To control stability a small quantity is added to $\sigma^2$.
 
 - Evaluate the total gradient of the square loss as:
@@ -48,5 +48,5 @@ $$v_{t+1} = v_t - (\nabla^2 D )^{-1} \nabla D$$
 The $\chi^2$ of the fit is minimized iteratively with the Newton-Raphson method. The iterative minimization ends when the maximum iteration number is reached or when the vertex update is smaller than a tolerance threshold (`eps` in the class constructor):
 $$|v_{t+1} - v_t|<\varepsilon$$
 
-> :memo: <br>
+> :memo: **Implementation detail**<br>
 To avoid stopping the fit if one iteration is randomly stuck, the fit is actually stopped when the stability criteria is hit 5 times in a row.
