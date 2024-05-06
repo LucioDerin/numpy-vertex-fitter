@@ -27,8 +27,8 @@ To reproduce the fit an ATLAS `.h5` file is needed in this directory. The `.h5` 
 /afs/cern.ch/user/l/lderin/public/vertex-fit-h5/ttbar.h5
 ```
 
-> **Note**
-`H5` fields names may vary! If you are running this code on a different ATLAS `H5` file, it is possible that some field names are different from my version, resulting in a code crash. For instance, the field `ftagTruthOriginLabel` was recently renamed.
+> :memo: **`H5` fields names may vary!**<br>
+If you are running this code on a different ATLAS `H5` file, it is possible that some field names are different from my version, resulting in a code crash. For instance, the field `ftagTruthOriginLabel` was recently renamed.
 
 When an `H5` file is added to the repository, to perform the fit run the `fit.py` script: it will automatically detect the `H5` file.
 

@@ -24,8 +24,7 @@ $$J_i = (\frac{\partial D_{i,t}}{\partial r_i} ,\frac{\partial D_{i,t}}{\partial
 - Evaluate the tracks' weight as:
 $$\sigma^2_i = J^\top V_i J$$
 where $V$ is the covaraince matrix of the track. 
-> **Note**
-To control stability a small quantity is added to $\sigma^2$.
+> :memo: To control stability a small quantity is added to $\sigma^2$.
 
 - Evaluate the total gradient of the square loss as:
 $$\nabla D = - \sum\limits_{i} \frac{1}{\sigma^2_i} \frac{\partial D_{i,t}}{\partial r_i}$$
@@ -48,5 +47,4 @@ $$v_{t+1} = v_t - (\nabla^2 D )^{-1} \nabla D$$
 The $\chi^2$ of the fit is minimized iteratively with the Newton-Raphson method. The iterative minimization ends when the maximum iteration number is reached or when the vertex update is smaller than a tolerance threshold (`eps` in the class constructor):
 $$|v_{t+1} - v_t|<\varepsilon$$
 
-> **Note**
-To avoid stopping the fit if one iteration is randomly stuck, the fit is actually stopped when the stability criteria is hit 5 times in a row.
+> :memo: To avoid stopping the fit if one iteration is randomly stuck, the fit is actually stopped when the stability criteria is hit 5 times in a row.
