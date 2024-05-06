@@ -58,6 +58,7 @@ def plot_chi2_comparison(perfect_tracksel_chi2, GN2_chi2, title, filename):
         xlabel=r"$\chi^2$",
         bins=(xrange[1] - xrange[0])*10,
         bins_range=xrange,
+        logy=True,
         norm=True,
         atlas_first_tag="Simulation Internal",
         atlas_second_tag=r"RUN3 $t\bar{t}$",
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     MCtruth_Lxy = []
     jet_flav = []
 
-    with open("fit_results.dat", "r") as ifile:
+    with open("fit_results_highstat.dat", "r") as ifile:
         ifile.readline()
         for line in ifile:
             glxy, plxy, sv1lxy, tlxy, flav, TruthChi2, GN2chi2 = [
