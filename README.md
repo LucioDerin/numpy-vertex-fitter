@@ -1,6 +1,6 @@
 # Vertex Fit with GN2's track origin predictions
 
-The code in this repository produces the $L_{xy}$ comparison between the vertex fitting performed with GN2's track selection or with "perfect track selection" (i.e. using the Montecarlo truth track origins to select which tracks are to be fitted). Results can be found in `images`. Here is the result of the comparison on $b/c-$ jets:
+The code in this repository produces the $L_{xy}$ comparison between the vertex fitting performed with GN2's track selection v.s. with "perfect track selection" (i.e. using the Montecarlo truth track origins to select which tracks are to be fitted). Results can be found in `images`. Here is the result of the comparison on $b/c-$ jets:
 <center>
 <img src="./images/LxyComparison_inclusive.jpg" alt="drawing" width="700"/>
 </center>

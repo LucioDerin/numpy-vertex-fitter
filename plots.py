@@ -155,7 +155,7 @@ if __name__ == "__main__":
         perfect_tracksel_Lxy,
         SV1_Lxy,
         MCtruth_Lxy,
-        title=r"$L_{xy}$ comparison, b/c-jets",
+        title=r"$L_{xy}$ comparison, $b/c$-jets",
         filename="LxyComparison_inclusive.jpg",
     )
     plot_residuals_comparison(
@@ -163,13 +163,13 @@ if __name__ == "__main__":
         perfect_tracksel_Lxy,
         SV1_Lxy,
         MCtruth_Lxy,
-        title=r"Residuals comparison, b/c-jets",
+        title=r"Residuals comparison, $b/c$-jets",
         filename="ResidualsComparison_inclusive.jpg",
     )
     plot_chi2_comparison(
         perfect_tracksel_chi2,
         GN2_chi2,
-        title=r"$\chi^2$ comparison, b/c-jets",
+        title=r"$\chi^2$ comparison, $b/c$-jets",
         filename="chi2_inclusive.jpg",
     )
 
@@ -187,7 +187,7 @@ if __name__ == "__main__":
         perfect_tracksel_Lxy_cjets,
         SV1_Lxy_cjets,
         MCtruth_Lxy_cjets,
-        title=r"$L_{xy}$ comparison, c-jets only",
+        title=r"$L_{xy}$ comparison, $c$-jets only",
         filename="LxyComparison_cjets.jpg",
     )
     plot_residuals_comparison(
@@ -195,13 +195,13 @@ if __name__ == "__main__":
         perfect_tracksel_Lxy_cjets,
         SV1_Lxy_cjets,
         MCtruth_Lxy_cjets,
-        title=r"Residuals comparison, c-jets only",
+        title=r"Residuals comparison, $c$-jets only",
         filename="ResidualsComparison_cjets.jpg",
     )
     plot_chi2_comparison(
         perfect_tracksel_chi2_cjets,
         GN2_chi2_cjets,
-        title=r"$\chi^2$ comparison, c-jets only",
+        title=r"$\chi^2$ comparison, $c$-jets only",
         filename="chi2_cjets.jpg",
     )
 
@@ -219,7 +219,7 @@ if __name__ == "__main__":
         perfect_tracksel_Lxy_bjets,
         SV1_Lxy_bjets,
         MCtruth_Lxy_bjets,
-        title=r"$L_{xy}$ comparison, c-jets only",
+        title=r"$L_{xy}$ comparison, $b$-jets only",
         filename="LxyComparison_bjets.jpg",
     )
     plot_residuals_comparison(
@@ -227,12 +227,12 @@ if __name__ == "__main__":
         perfect_tracksel_Lxy_bjets,
         SV1_Lxy_bjets,
         MCtruth_Lxy_bjets,
-        title=r"Residuals comparison, c-jets only",
+        title=r"Residuals comparison, $b$-jets only",
         filename="ResidualsComparison_bjets.jpg",
     )
     plot_chi2_comparison(
         perfect_tracksel_chi2_bjets,
         GN2_chi2_bjets,
-        title=r"$\chi^2$ comparison, b-jets only",
+        title=r"$\chi^2$ comparison, $b$-jets only",
         filename="chi2_bjets.jpg",
     )
