@@ -39,10 +39,13 @@ l3dGn2 = []
 
 nFittedJets = 0
 perfect_tracksel_vertexes = []
+perfect_tracksel_chi2 = []
 GN2_tracksel_vertexes = []
+GN2_tracksel_chi2 = []
 SV1_Lxy = []
 MCtruth_Lxy = []
 jet_flavour = []
+
 
 filterLightJets = True
 
@@ -86,15 +89,17 @@ for i, j in enumerate(jets):
         continue
 
     # perfect tracksel fit
-    vertexTruth,_ = svfs.fit(ptracksel_tracks.tolist())
+    vertexTruth,chi2Truth = svfs.fit(ptracksel_tracks.tolist())
 
     # GN2 tracksel fit
-    vertexGN2,_ = svfs.fit(GN2tracksel_tracks.tolist())
+    vertexGN2,chi2GN2 = svfs.fit(GN2tracksel_tracks.tolist())
 
     SV1_Lxy.append(j.properties["SV1_Lxy"])
     MCtruth_Lxy.append(j.properties["HadronConeExclTruthLabelLxy"])
     perfect_tracksel_vertexes.append(vertexTruth)
+    perfect_tracksel_chi2.append(chi2Truth)
     GN2_tracksel_vertexes.append(vertexGN2)
+    GN2_tracksel_chi2.append(chi2GN2)
     jet_flavour.append(j.properties["HadronConeExclTruthLabelID"])
     nFittedJets += 1
 
@@ -118,10 +123,10 @@ for i in range(nFittedJets):
 
 with open("fit_results.dat", "w") as ofile:
     print(
-        "GN2_tracksel_Lxy perfect_tracksel_Lxy SV1_Lxy HadronConeExclTruthLabelLxy HadronConeExclTruthLabelID",
+        "GN2_tracksel_Lxy perfect_tracksel_Lxy SV1_Lxy HadronConeExclTruthLabelLxy HadronConeExclTruthLabelID Truth_Chi2 GN2_chi2",
         file=ofile,
     )
     for i in range(nFittedJets):
         print(
-            GN2_Lxy[i], perfect_tracksel_Lxy[i], SV1_Lxy[i], MCtruth_Lxy[i], jet_flavour[i], file=ofile
+            GN2_Lxy[i], perfect_tracksel_Lxy[i], SV1_Lxy[i], MCtruth_Lxy[i], jet_flavour[i], perfect_tracksel_chi2[i], GN2_tracksel_chi2[i], file=ofile
         )
