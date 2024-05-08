@@ -29,7 +29,7 @@ To run this code, you need to install [PUMA](https://github.com/umami-hep/puma) 
 
 ### Reproduce the fit
 
-To reproduce the fit an ATLAS `.h5` file is needed in this directory. The `.h5` file that was used to produce these results can be found in my `public` area on `eos`:
+To reproduce the fit an ATLAS `H5` file is needed in this directory. The `H5` file that was used to produce these results can be found in my `public` area on `eos`:
 ```shell
 /afs/cern.ch/user/l/lderin/public/vertex-fit-h5/ttbar.h5
 ```
