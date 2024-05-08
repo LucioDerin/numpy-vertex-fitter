@@ -8,10 +8,10 @@ The SVFs (**S**ingle **V**ertex **F**inder on **s**traight tracks) algorithm imp
 ## Iteration Steps
 Given the tracks origins $r_i$ and versors $a_i$, and defining $t$ as the iteration index and $i$ as the tracks index:
 - Build the jacobian of the least square loss $D$ for each track origin $r_i$ as:
-$$\frac{\partial D_{i,t}}{\partial r_i} = 2(a_{i,1} \eta_{i,10} - a_{i,2} \eta_{i,02}, a_{i,2} \eta_{i,21} - a_{i,0} \eta_{i,10},a_{i,0} \eta_{i,02} - a_{i,1} \eta_{i,21})^\top$$
+$$\frac{\partial D_{i,t}}{\partial r_i} = 2(a_{i,1} \eta_{i,10} - a_{i,2} \eta_{i,02}, ~a_{i,2} \eta_{i,21} - a_{i,0} \eta_{i,10},~a_{i,0} \eta_{i,02} - a_{i,1} \eta_{i,21})^\top$$
 
 - Build the jacobian of the least square loss $D$ for each track versor $a_i$ as:
-$$\frac{\partial D_{i,t}}{\partial a_i} = 2(d_{i,2} \eta_{i,02} - d_{i,1} \eta_{i,10}, d_{i,0} \eta_{i,10} - d_{i,2} \eta_{i,21},d_{i,1} \eta_{i,21} - d_{i,0} \eta_{i,02})^\top$$
+$$\frac{\partial D_{i,t}}{\partial a_i} = 2(d_{i,2} \eta_{i,02} - d_{i,1} \eta_{i,10}, ~d_{i,0} \eta_{i,10} - d_{i,2} \eta_{i,21},~d_{i,1} \eta_{i,21} - d_{i,0} \eta_{i,02})^\top$$
 
 with the auxiliary variables:
 $$d_{i,k } \triangleq r_{i,k} - v_{t,k}$$ 
