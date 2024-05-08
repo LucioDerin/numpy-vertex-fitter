@@ -14,9 +14,9 @@ $$\frac{\partial D_{i,t}}{\partial r_i} = 2(a_{i,1} \eta_{i,10} - a_{i,2} \eta_{
 $$\frac{\partial D_{i,t}}{\partial a_i} = 2(d_{i,2} \eta_{i,02} - d_{i,1} \eta_{i,10}, d_{i,0} \eta_{i,10} - d_{i,2} \eta_{i,21},d_{i,1} \eta_{i,21} - d_{i,0} \eta_{i,02})^\top$$
 
 with the auxiliary variables:
-$$d_{i,k } = r_{i,k} - v_{t,k}$$ 
+$$d_{i,k } \triangleq r_{i,k} - v_{t,k}$$ 
 where $v$ is the fitted vertex at iteration $t$;
-$$\eta_{i,jk} = a_{i,j}d_{i,k} - a_{i,k}d_{i,j}$$
+$$\eta_{i,jk} \triangleq a_{i,j}d_{i,k} - a_{i,k}d_{i,j}$$
 
 - Build the Jacobian of the track as:
 $$J_i = (\frac{\partial D_{i,t}}{\partial r_i} ,\frac{\partial D_{i,t}}{\partial a_i})^\top$$
